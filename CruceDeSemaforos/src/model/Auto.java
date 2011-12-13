@@ -18,7 +18,7 @@ public abstract class Auto extends Thread{
 		this.calle = calle;
 	}
 	
-	public void statr(){}
+	public void run(){}
 	
 	
 }
