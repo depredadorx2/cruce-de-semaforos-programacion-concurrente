@@ -7,18 +7,33 @@ import java.util.concurrent.Semaphore;
 
 public abstract class Auto extends Thread{
 	
-	private int velocidad;
-	private Semaphore semaforoPaso1;
-	private Avenida calle;
+	public int velocidad;
+	public Semaphore semaforoPaso1;
+	public Avenida calle;
+	public String modeloAuto;
+	public int matricula;
+	public String tipoDeCruce;
 	
-	public Auto(int velocidad, Avenida calle) {
-		super();
+	public Auto(int velocidad, Avenida calle, Semaphore semaforoCubito, String modelo, int matricula, String tipoDeCruce) {
+		
 		this.velocidad = velocidad;
-		this.semaforoPaso1 =  new Semaphore(1);
+		this.semaforoPaso1 =  semaforoCubito;
 		this.calle = calle;
+		this.modeloAuto = modelo;
+		this.matricula = matricula;
+		this.tipoDeCruce = tipoDeCruce;
 	}
 	
 	public void run(){}
 	
+	public void unirmeAlTransito(){
+		this.calle.agregarAuto(this); //esta bien esto, porque no se si se agrega auto o se agregua el auto que lo invoca
+		
+	}
+
+	public void cruzar() {
+		
+		
+	}
 	
 }

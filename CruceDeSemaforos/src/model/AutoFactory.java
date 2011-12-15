@@ -1,39 +1,45 @@
 package model;
 
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+
 
 public class AutoFactory {
 	
-	private Lock semaforoEsquinaNE = new ReentrantLock();
-	private Lock semaforoEsquinaSE = new ReentrantLock();
-	private Lock semaforoEsquinaSO = new ReentrantLock();
+	
 	private Semaphore semaforoNO = new Semaphore(1);
 	private Semaphore semaforoNE = new Semaphore(1);
 	private Semaphore semaforoSO = new Semaphore(1);
 	private Semaphore semaforoSE = new Semaphore(1);
-	private Avenida calleOeste = new Avenida();
-	private Avenida calleSur = new Avenida();
-	private Avenida calleEste = new Avenida();
 	
-	public AutoCruceDoble makeAutoEO(){
-		return null;}
 	
-	public AutoCruceDoble makeAutoEOHaciaSur(){
-		return null;}
+	public AutoCruceDoble makeAutoEO(int velocidad,String  modelo, int matricula, Avenida calleEste ){
+		
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleEste, this.semaforoNE, modelo, matricula, "cruce fraccion NorEste " , this.semaforoNO, "cruzando fraccion NorOeste " );
+		return auto;}
 	
-	public AutoCruceDoble makeAutoOE(){
-		return null;}
+	public AutoCruceDoble makeAutoEOHaciaSur(int velocidad,String  modelo, int matricula, Avenida calleEste){
+		
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleEste, this.semaforoNE, modelo, matricula, "cruce fraccion NorEste " , this.semaforoSO, "cruzando fraccion SurOeste " );
+		return auto;}
 	
-	public AutoCruceDoble makeAutoSurHaciaIzquierda(){
-		return null;}
+	public AutoCruceDoble makeAutoOE(int velocidad,String  modelo, int matricula, Avenida calleOeste){
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleOeste, this.semaforoSO, modelo, matricula, "cruce fraccion SurOeste " , this.semaforoSE, "cruzando fraccion SurEste " );
+		return auto;}
 	
-	public AutoCruceSimple makeAutoOEHaciaSur(){
-		return null;}
+	public AutoCruceDoble makeAutoSurHaciaIzquierda(int velocidad,String  modelo, int matricula,  Avenida calleSur ){
+		
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleSur, this.semaforoSE, modelo, matricula, "cruce fraccion SurEste " , this.semaforoNO, "cruzando fraccion NorOeste " );
+		return auto;}
 	
-	public AutoCruceSimple makeAutoSurHaciaDerecha(){
-		return null;}
+	public AutoCruceSimple makeAutoOEHaciaSur(int velocidad,String  modelo, int matricula, Avenida calleOeste){
+		
+		AutoCruceSimple auto = new AutoCruceSimple(velocidad, calleOeste, this.semaforoSO, modelo, matricula, "cruce fraccion SurOeste");
+		return auto;}
+	
+	public AutoCruceSimple makeAutoSurHaciaDerecha(int velocidad,String  modelo, int matricula, Avenida calleSur){
+		
+		AutoCruceSimple auto = new AutoCruceSimple(velocidad, calleSur, this.semaforoSE, modelo, matricula, "cruce fraccion SurEste");
+		return auto;}
 	
 
 }
