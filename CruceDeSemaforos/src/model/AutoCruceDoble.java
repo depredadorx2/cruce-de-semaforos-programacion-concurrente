@@ -19,25 +19,25 @@ public class AutoCruceDoble extends Auto {
 	public void start(){
 		try {
 			this.unirmeAlTransito();
-			System.out.println(super.modeloAuto+" "+super.matricula +"  estoy en transito, espero semaforo verde "+ " calle " + super.calle.nombre);
+			System.out.println(this.modeloAuto+" "+this.matricula +"  estoy en transito, espero semaforo verde "+ " calle " + this.calle.nombre);
 			
 				wait(); //espero que al semaforo
 				
-				System.out.println(super.modeloAuto+" "+super.matricula +"  cruce semaforo " + " calle " + super.calle.nombre);
+				System.out.println(this.modeloAuto+" "+this.matricula +"  cruce semaforo " + " calle " + this.calle.nombre);
 				
-				super.semaforoPaso1.acquireUninterruptibly();
+				this.semaforoPaso1.acquireUninterruptibly();
 				
-				System.out.println(super.modeloAuto+" "+super.matricula +"  ocupe " + super.tipoDeCruce);
-				Thread.sleep(super.velocidad);
-				super.semaforoPaso1.release();
+				System.out.println(this.modeloAuto+" "+this.matricula +"  ocupe " + this.tipoDeCruce);
+				Thread.sleep(this.velocidad);
+				this.semaforoPaso1.release();
 				
-				System.out.println(super.modeloAuto+" "+super.matricula +"  desocupe " + super.tipoDeCruce);
+				System.out.println(this.modeloAuto+" "+this.matricula +"  desocupe " + this.tipoDeCruce);
 				
 				this.semaforoPaso2.acquireUninterruptibly();
-				System.out.println(super.modeloAuto+" "+super.matricula +"  ocupe " + this.tipoDeCruce2);
-				Thread.sleep(super.velocidad);
+				System.out.println(this.modeloAuto+" "+this.matricula +"  ocupe " + this.tipoDeCruce2);
+				Thread.sleep(this.velocidad);
 				this.semaforoPaso2.release();
-				System.out.println(super.modeloAuto+" "+super.matricula +"  desocupe " + this.tipoDeCruce2);
+				System.out.println(this.modeloAuto+" "+this.matricula +"  desocupe " + this.tipoDeCruce2);
 				
 				
 				
@@ -49,5 +49,9 @@ public class AutoCruceDoble extends Auto {
 		notify(); // esto lo hace fair? o sea, libera al auto que realmente esta primero?
 	}
 	
+	public void unirmeAlTransito(){
+		this.calle.agregarAuto(this); //esta bien esto, porque no se si se agrega auto o se agregua el auto que lo invoca
+		
+	}
 
 }

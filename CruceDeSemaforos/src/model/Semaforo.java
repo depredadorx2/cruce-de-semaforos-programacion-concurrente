@@ -15,7 +15,7 @@ public class Semaforo extends Thread {
 	public Semaphore mutexBoleano = new Semaphore(1);
 	public static Lock l = new ReentrantLock();
 	public static Condition esperarVerde = l.newCondition();
-	public static Boolean estaEnVerde = true;
+	public static Boolean estaEnVerde= false;
 	public SemaforoLiberadorDeAutos sema = new SemaforoLiberadorDeAutos();
 	
 	/**
@@ -53,15 +53,16 @@ public class Semaforo extends Thread {
 		mutexBoleano.acquireUninterruptibly(); //protejo el boleano
 		
 		estaEnVerde=true;
-		
+		mutexBoleano.release(); 
+		System.out.println("libero autos "+ this.indentificacion);
 		esperarVerde.signal(); //libero mi thread liberador de autos
-		mutexBoleano.release();  
+		System.out.println("libere "+ this.indentificacion); 
 		
 		
 		Thread.sleep(2000);
 		
 		this.color = "Amarillo";
-		
+		System.out.println("ojo, cambio a  amarillo "+ this.indentificacion);
 		Thread.sleep(400);
 		
 		mutexBoleano.acquireUninterruptibly(); //cambio el booleano para que dejen de pasar autos
@@ -69,6 +70,7 @@ public class Semaforo extends Thread {
 		mutexBoleano.release();
 		
 		this.semaforoVerde.release(); //libero el semaforo verde
+		System.out.println("soy rojo"+ this.indentificacion);
 		this.semaforoRojo.acquireUninterruptibly(); //ahora soy rojo
 			}
 		}
@@ -84,18 +86,21 @@ public class Semaforo extends Thread {
 			l.lock();
 			try{
 			while(true){
+				System.out.println("ayudante, esperando a liberar autos ");
+				esperarVerde.await();
 				while(estaEnVerde){
+					System.out.println("libero  ");
 					calle.puedenCruzar(); // este esta adefinido en calle, lo que hace es a su primer auto lo libera
 				}
 				
-				esperarVerde.await();
+				
 				
 			}
 			
 		}
 		
 		catch(Exception e){}
-	  l.unlock();
+	  finally{l.unlock();}
 		} 
 }
 }

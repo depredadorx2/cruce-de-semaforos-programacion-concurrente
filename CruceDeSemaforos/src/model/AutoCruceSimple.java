@@ -7,6 +7,7 @@ public class AutoCruceSimple extends Auto {
 	/*Lock l = new ReentrantLock();
 	Condition puedoCruzar = new
 	*/
+	public Semaphore permiso = new Semaphore(1, true);
 
 	public AutoCruceSimple(int velocidad, Avenida calle, Semaphore semaforoCubito, String modelo, int matricula, String tipoDeCruce) {
 		super(velocidad,  calle, semaforoCubito,  modelo, matricula, tipoDeCruce);
@@ -17,20 +18,21 @@ public class AutoCruceSimple extends Auto {
 	public synchronized void start(){
 		try {
 		this.unirmeAlTransito();
-		System.out.println(super.modeloAuto+" "+super.matricula +"  estoy en transito, espero semaforo verde " + " calle " + super.calle.nombre);
+		System.out.println(this.modeloAuto+" "+this.matricula +"  estoy en transito, espero semaforo verde " + " calle " + this.calle.nombre);
 		
-			wait(); //espero que al semaforo
+			//wait(); //espero que al semaforo
+		this.permiso.acquireUninterruptibly();
 			
 			
-			System.out.println(super.modeloAuto+" "+super.matricula +"  cruce semaforo "+ " calle " + super.calle.nombre);
+			System.out.println(this.modeloAuto+" "+this.matricula +"  cruce semaforo "+ " calle " + this.calle.nombre);
 			
 			super.semaforoPaso1.acquireUninterruptibly();
 			
-			System.out.println(super.modeloAuto+" "+super.matricula +"  ocupe " + super.tipoDeCruce);
-			Thread.sleep(super.velocidad);
-			super.semaforoPaso1.release();
+			System.out.println(this.modeloAuto+" "+this.matricula +"  ocupe " + this.tipoDeCruce);
+			Thread.sleep(this.velocidad);
+			this.semaforoPaso1.release();
 			
-			System.out.println(super.modeloAuto+" "+super.matricula +"  desocupe " + super.tipoDeCruce);
+			System.out.println(this.modeloAuto+" "+this.matricula +"  desocupe " + this.tipoDeCruce);
 			
 			
 			
@@ -40,7 +42,13 @@ public class AutoCruceSimple extends Auto {
 	}
 
 	public synchronized void curzar(){
-		notify(); // esto lo hace fair? o sea, libera al auto que realmente esta primero?
+		//notify(); // esto lo hace fair? o sea, libera al auto que realmente esta primero?
+		this.permiso.release();
+	}
+	
+	public void unirmeAlTransito(){
+		this.calle.agregarAuto(this); //esta bien esto, porque no se si se agrega auto o se agregua el auto que lo invoca
+		
 	}
 	
 }
