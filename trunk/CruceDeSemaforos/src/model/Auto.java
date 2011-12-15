@@ -26,10 +26,7 @@ public abstract class Auto extends Thread{
 	
 	public void run(){}
 	
-	public void unirmeAlTransito(){
-		this.calle.agregarAuto(this); //esta bien esto, porque no se si se agrega auto o se agregua el auto que lo invoca
-		
-	}
+	
 
 	public void cruzar() {
 		
