@@ -36,6 +36,7 @@ public class AutoCruceDoble extends Auto {
 		try {
 			this.unirmeAlTransito();
 			
+			
 			this.estoyPrimero.acquireUninterruptibly();
 
 			this.imprimirInformacion("  estoy en transito, espero semaforo verde ");
@@ -54,24 +55,23 @@ public class AutoCruceDoble extends Auto {
 			Thread.sleep(this.velocidad);
 			this.estoyPrimero.release();
 			
-			
 			this.imprimirInformacion("  desocupe ");
-			this.semaforoPaso1.release();
-
 			
 			this.semaforoPaso2.acquireUninterruptibly();
+			
 			this.semaforoPaso1.release();
+
 
 			this.imprimirInformacion("  ocupe ");
 
 			Thread.sleep(this.velocidad);
-			this.semaforoPaso2.release();
 
 			this.imprimirInformacion("  desocupe ");
 
 			System.out.println(this.id + " " + this.modeloAuto + " "
 					+ "  abandone el cruce ");
 			
+			this.semaforoPaso2.release();
 
 		} catch (Exception e) {
 		}
