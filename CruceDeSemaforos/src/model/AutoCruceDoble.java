@@ -57,10 +57,7 @@ public class AutoCruceDoble extends Auto {
 			
 			this.imprimirInformacion("  desocupe ");
 			this.semaforoPaso1.release();
-			System.out.println(this.id + " " + this.modeloAuto + " "
-					+ "  abandone el cruce ");
-			
-			this.imprimirInformacion("  desocupe ");
+		
 
 			this.semaforoPaso2.acquireUninterruptibly();
 			this.semaforoPaso1.release();
