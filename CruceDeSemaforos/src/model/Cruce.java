@@ -61,7 +61,7 @@ public class Cruce {
 	}
 	
 	public synchronized void iniciarAutoEO(){
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 20; i++) {
 			
 			int velocidad = ((int) Math.floor(Math.random()*(50-10+1)+10));
 			String modelo = modelos.get(new Random().nextInt(7));
@@ -72,56 +72,56 @@ public class Cruce {
 		}
 	
 	public synchronized void iniciarAutoEOHaciaSur(){
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 20; i++) {
 			
 			int velocidad = ((int) Math.floor(Math.random()*(50-10+1)+10));
 			String modelo = modelos.get(new Random().nextInt(7));
 			
-			Auto auto = factory.makeAutoEOHaciaSur(velocidad, modelo, semaforoEste, i + 1001);
+			Auto auto = factory.makeAutoEOHaciaSur(velocidad, modelo, semaforoEste, i + 21);
 			auto.start();
 			}
 		}
 	
 	public synchronized void iniciarAutoOE(){
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 20; i++) {
 			
 			int velocidad = ((int) Math.floor(Math.random()*(50-10+1)+10));
 			String modelo = modelos.get(new Random().nextInt(7));
 			
-			Auto auto = factory.makeAutoOE(velocidad, modelo, semaforoOeste, i + 2001);
+			Auto auto = factory.makeAutoOE(velocidad, modelo, semaforoOeste, i + 41);
 			auto.start();
 			}
 		}
 	
 	public synchronized void iniciarAutoSurHaciaIzquierda(){
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 20; i++) {
 			
 			int velocidad = ((int) Math.floor(Math.random()*(50-10+1)+10));
 			String modelo = modelos.get(new Random().nextInt(7));
 			
-			Auto auto = factory.makeAutoSurHaciaIzquierda(velocidad, modelo, semaforoSur, i + 3001);
+			Auto auto = factory.makeAutoSurHaciaIzquierda(velocidad, modelo, semaforoSur, i + 61);
 			auto.start();
 			}
 		}
 	
 	public synchronized void iniciarAutoOEHaciaSur(){
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 20; i++) {
 			
 			int velocidad = ((int) Math.floor(Math.random()*(50-10+1)+10));
 			String modelo = modelos.get(new Random().nextInt(7));
 			
-			Auto auto = factory.makeAutoOEHaciaSur(velocidad, modelo, semaforoOeste, i + 4001);
+			Auto auto = factory.makeAutoOEHaciaSur(velocidad, modelo, semaforoOeste, i + 81);
 			auto.start();
 			}
 		}
 	
 	public synchronized void iniciarAutoSurHaciaDerecha(){
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 20; i++) {
 			
 			int velocidad = ((int) Math.floor(Math.random()*(50-10+1)+10));
 			String modelo = modelos.get(new Random().nextInt(7));
 			
-			Auto auto = factory.makeAutoSurHaciaDerecha(velocidad, modelo, semaforoSur, i + 5001);
+			Auto auto = factory.makeAutoSurHaciaDerecha(velocidad, modelo, semaforoSur, i + 101);
 			auto.start();
 			}
 		}
