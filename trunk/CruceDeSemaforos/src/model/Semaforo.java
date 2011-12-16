@@ -87,8 +87,8 @@ public class Semaforo extends Thread {
 		System.out.println(estaEnVerde +" "+this.indentificacion);
 
 		
-		this.semaforoVerde.release(); 
 		System.out.println("soy rojo "+ this.indentificacion);
+		this.semaforoVerde.release(); 
 		
 			}
 		}
