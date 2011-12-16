@@ -57,8 +57,8 @@ public class AutoCruceDoble extends Auto {
 			
 			this.imprimirInformacion("  desocupe ");
 			this.semaforoPaso1.release();
-		
 
+			
 			this.semaforoPaso2.acquireUninterruptibly();
 			this.semaforoPaso1.release();
 
@@ -77,28 +77,4 @@ public class AutoCruceDoble extends Auto {
 		}
 	}
 
-	/**
-	 * Al irse, el auto libera las dos grillas que ocupo en su trayecto luego de
-	 * haber avanzado al estar verde el semaforo.
-	 */
-	/*public synchronized void irse() {
-		try {
-			this.imprimirInformacion("  desocupe ");
-
-			this.semaforoPaso2.acquireUninterruptibly();
-			this.semaforoPaso1.release();
-
-			this.imprimirInformacion("  ocupe ");
-
-			Thread.sleep(this.velocidad);
-			this.semaforoPaso2.release();
-
-			this.imprimirInformacion("  desocupe ");
-
-			System.out.println(this.id + " " + this.modeloAuto + " "
-					+ "  abandone el cruce ");
-		} catch (Exception e) {
-		}
-	}
-*/
 }
