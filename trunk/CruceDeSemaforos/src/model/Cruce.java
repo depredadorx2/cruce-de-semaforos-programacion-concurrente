@@ -11,7 +11,6 @@ public class Cruce {
 	
 	
 	Semaphore semaforoVerde = new Semaphore(1, true);
-	//int id;
 	List<String> modelos = new ArrayList<String>();
 	AutoFactory factory= new AutoFactory();
 	Semaforo semaforoEste = new Semaforo(semaforoVerde, "semaforo Este");
