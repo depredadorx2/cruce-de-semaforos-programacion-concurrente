@@ -2,47 +2,137 @@ package model;
 
 import java.util.concurrent.Semaphore;
 
-
 public class AutoFactory {
-	
-	
-	private Semaphore sectorNO = new Semaphore(1);
-	private Semaphore sectorNE = new Semaphore(1);
-	private Semaphore sectorSO = new Semaphore(1);
-	private Semaphore sectorSE = new Semaphore(1);
+
+	/**
+	 * Estas son variables de instancia que necesita AutoFactory para instanciar
+	 * los autos. Los primeras 4 varibles representan cada grilla despues del de
+	 * cruzar el semaforo y las ultimas 3, son semaforos que representan la cola
+	 * de espera frente al semaforo fisico.
+	 */
+	public Semaphore sectorNO = new Semaphore(1);
+	public Semaphore sectorNE = new Semaphore(1);
+	public Semaphore sectorSO = new Semaphore(1);
+	public Semaphore sectorSE = new Semaphore(1);
 	public Semaphore esVerdeEste = new Semaphore(1, true);
 	public Semaphore esVerdeOeste = new Semaphore(1, true);
 	public Semaphore esVerdeSur = new Semaphore(1, true);
-	
-	
-	public AutoCruceDoble makeAutoEO(int velocidad,String  modelo, int matricula, Avenida calleEste, Semaforo semaSuCalle ){
-		
-		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleEste, this.sectorNE, modelo, matricula, "cruce fraccion NorEste " , this.sectorNO, "cruzando fraccion NorOeste " , esVerdeEste, semaSuCalle, "sigo derecho hacia el Oeste"  );
-		return auto;}
-	
-	public AutoCruceDoble makeAutoEOHaciaSur(int velocidad,String  modelo, int matricula, Avenida calleEste, Semaforo semaSuCalle ){
-		
-		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleEste, this.sectorNE, modelo, matricula, "cruce fraccion NorEste " , this.sectorSO, "cruzando fraccion SurOeste ", esVerdeEste, semaSuCalle,"giro a la izquierda"   );
-		return auto;}
-	
-	public AutoCruceDoble makeAutoOE(int velocidad,String  modelo, int matricula, Avenida calleOeste, Semaforo semaSuCalle ){
-		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleOeste, this.sectorSO, modelo, matricula, "cruce fraccion SurOeste " , this.sectorSE, "cruzando fraccion SurEste ", esVerdeOeste, semaSuCalle,  "derecho hacia Este"  );
-		return auto;}
-	
-	public AutoCruceDoble makeAutoSurHaciaIzquierda(int velocidad,String  modelo, int matricula,  Avenida calleSur, Semaforo semaSuCalle ){
-		
-		AutoCruceDoble auto = new AutoCruceDoble(velocidad, calleSur, this.sectorSE, modelo, matricula, "cruce fraccion SurEste " , this.sectorNO, "cruzando fraccion NorOeste ", esVerdeSur, semaSuCalle,  "giro a la izquierda"  );
-		return auto;}
-	
-	public AutoCruceSimple makeAutoOEHaciaSur(int velocidad,String  modelo, int matricula, Avenida calleOeste, Semaforo semaSuCalle ){
-		
-		AutoCruceSimple auto = new AutoCruceSimple(velocidad, calleOeste, this.sectorSO, modelo, matricula, "cruce fraccion SurOeste", esVerdeOeste, semaSuCalle, "giro derecha" );
-		return auto;}
-	
-	public AutoCruceSimple makeAutoSurHaciaDerecha(int velocidad,String  modelo, int matricula, Avenida calleSur, Semaforo semaSuCalle){
-		
-		AutoCruceSimple auto = new AutoCruceSimple(velocidad, calleSur, this.sectorSE, modelo, matricula, "cruce fraccion SurEste", esVerdeSur, semaSuCalle,  "giro derecha" );
-		return auto;}
-	
+
+	/**
+	 * Crea autos que se ubicaran en la calle Este, y luego de curzar el
+	 * semaforo, ocuparan las grillas NorEste y NorOeste
+	 * 
+	 * @param velocidad
+	 * @param modelo
+	 * @param calleEste
+	 * @param semaSuCalle
+	 * @return
+	 */
+	public AutoCruceDoble makeAutoEO(int velocidad, String modelo,
+			 Semaforo semaSuCalle, int id) {
+
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad, 
+				this.sectorNE, modelo, "cruce fraccion NorEste ",
+				this.sectorNO, "cruzando fraccion NorOeste ", esVerdeEste,
+				semaSuCalle, "sigo derecho hacia el Oeste", "Este", id);
+		return auto;
+	}
+
+	/**
+	 * Crea autos que se ubican en la calle Este, luego de cruzar el semaforo
+	 * ocuparan las grillas NorEste y SurOeste
+	 * 
+	 * @param velocidad
+	 * @param modelo
+	 * @param calleEste
+	 * @param semaSuCalle
+	 * @return
+	 */
+	public AutoCruceDoble makeAutoEOHaciaSur(int velocidad, String modelo,
+			 Semaforo semaSuCalle, int id) {
+
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad,
+				this.sectorNE, modelo, "cruce fraccion NorEste ",
+				this.sectorSO, "cruzando fraccion SurOeste ", esVerdeEste,
+				semaSuCalle, "giro a la izquierda", "Este", id);
+		return auto;
+	}
+
+	/**
+	 * Crea autos que se ubican en la calle Oeste, luego de cruzar el semaforo
+	 * ocuparan las grillas SurOeste y SurEste
+	 * 
+	 * @param velocidad
+	 * @param modelo
+	 * @param calleOeste
+	 * @param semaSuCalle
+	 * @return
+	 */
+	public AutoCruceDoble makeAutoOE(int velocidad, String modelo,
+			 Semaforo semaSuCalle, int id) {
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad, 
+				this.sectorSO, modelo, "cruce fraccion SurOeste ",
+				this.sectorSE, "cruzando fraccion SurEste ", esVerdeOeste,
+				semaSuCalle, "derecho hacia Este", "Oeste", id);
+		return auto;
+	}
+
+	/**
+	 * Crea autos que se ubican en la calle Sur, luego de cruzar el semaforo
+	 * ocuparan las grillas SurEste y NorOeste
+	 * 
+	 * @param velocidad
+	 * @param modelo
+	 * @param calleSur
+	 * @param semaSuCalle
+	 * @return
+	 */
+	public AutoCruceDoble makeAutoSurHaciaIzquierda(int velocidad,
+			String modelo, Semaforo semaSuCalle, int id) {
+
+		AutoCruceDoble auto = new AutoCruceDoble(velocidad, 
+				this.sectorSE, modelo, "cruce fraccion SurEste ",
+				this.sectorNO, "cruzando fraccion NorOeste ", esVerdeSur,
+				semaSuCalle, "giro a la izquierda", "Sur", id);
+		return auto;
+	}
+
+	/**
+	 * Crea autos que se ubican en la calle Oeste, luego de cruzar el semaforo
+	 * ocupará la grilla SurOeste
+	 * 
+	 * @param velocidad
+	 * @param modelo
+	 * @param calleOeste
+	 * @param semaSuCalle
+	 * @return
+	 */
+	public Auto makeAutoOEHaciaSur(int velocidad, String modelo,
+			 Semaforo semaSuCalle, int id) {
+
+		Auto auto = new Auto(velocidad,  this.sectorSO, modelo,
+				"cruce fraccion SurOeste", esVerdeOeste, semaSuCalle,
+				"giro derecha", "Oeste", id);
+		return auto;
+	}
+
+	/**
+	 * Crea autos que se ubican en la calle Sur, luego de cruzar el semaforo
+	 * ocupará la grilla SurEste
+	 * 
+	 * @param velocidad
+	 * @param modelo
+	 * @param calleSur
+	 * @param semaSuCalle
+	 * @return
+	 */
+	public Auto makeAutoSurHaciaDerecha(int velocidad, String modelo,
+			 Semaforo semaSuCalle, int id) {
+
+		Auto auto = new Auto(velocidad, this.sectorSE, modelo,
+				"cruce fraccion SurEste", esVerdeSur, semaSuCalle,
+				"giro derecha", "Sur", id);
+		return auto;
+	}
 
 }

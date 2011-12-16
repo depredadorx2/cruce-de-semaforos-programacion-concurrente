@@ -10,9 +10,7 @@ public class Semaforo extends Thread {
 	public String color;
 	public String indentificacion;
 	private Semaphore semaforoVerde;
-	private Semaphore semaforoRojo;
-	public   Avenida calle;
-	public Semaphore mutexBoleano = new Semaphore(1);
+	public Semaphore mutexBooleano = new Semaphore(1);
 	public static Lock l = new ReentrantLock();
 	public static Condition esperarVerde = l.newCondition();
 	public Boolean estaEnVerde= false;
@@ -40,12 +38,10 @@ public class Semaforo extends Thread {
 	 * @param semaforoRojo
 	 * @param calle
 	 */
-	public Semaforo(Semaphore semaforoVerde, Semaphore semaforoRojo, Avenida calle, String identificacion) {
+	public Semaforo(Semaphore semaforoVerde,  String identificacion) {
 		
 		
 		this.semaforoVerde = semaforoVerde;
-		this.semaforoRojo=semaforoRojo;
-		this.calle=calle;
 		this.indentificacion = identificacion;
 		
 		
@@ -58,29 +54,24 @@ public class Semaforo extends Thread {
  */
 
 	public void run(){
-		//sema.start();
+		
 		
 		try{
 			while (true){
-				this.semaforoVerde.acquireUninterruptibly(); //pido para ser verde
+				this.semaforoVerde.acquireUninterruptibly(); 
 				System.out.println("espero a ser verde "+ this.indentificacion);
 		
 		System.out.println("soy verde "+ this.indentificacion);
-		mutexBoleano.acquireUninterruptibly(); //protejo el boleano
+		mutexBooleano.acquireUninterruptibly(); 
 		
 		estaEnVerde=true;
-		mutexBoleano.release(); 
+		mutexBooleano.release(); 
 		
-		System.out.println(estaEnVerde +""+this.indentificacion);
+		System.out.println(estaEnVerde +" "+this.indentificacion);
 		
 		System.out.println("libero autos "+ this.indentificacion);
 		
 		getEsVerde().release();
-		
-		//esperarVerde.signal(); //libero mi thread liberador de autos
-		//this.calle.puedenCruzar();
-		
-		//System.out.println("libere "+ this.indentificacion); 
 		
 		
 		Thread.sleep(2000);
@@ -89,16 +80,16 @@ public class Semaforo extends Thread {
 		System.out.println("ojo, cambio a  amarillo "+ this.indentificacion);
 		Thread.sleep(500);
 		
-		mutexBoleano.acquireUninterruptibly(); //cambio el booleano para que dejen de pasar autos
+		mutexBooleano.acquireUninterruptibly();
 		estaEnVerde=false;
-		mutexBoleano.release();
+		mutexBooleano.release();
 		
-		System.out.println(estaEnVerde +""+this.indentificacion);
+		System.out.println(estaEnVerde +" "+this.indentificacion);
 
 		
-		this.semaforoVerde.release(); //libero el semaforo verde
-		System.out.println("soy rojo"+ this.indentificacion);
-		//this.semaforoRojo.acquireUninterruptibly(); //ahora soy rojo
+		this.semaforoVerde.release(); 
+		System.out.println("soy rojo "+ this.indentificacion);
+		
 			}
 		}
 		catch(Exception e){}
@@ -107,30 +98,4 @@ public class Semaforo extends Thread {
 	}
 	
 	
-	
-	/*public static class SemaforoLiberadorDeAutos extends Thread{
-		
-		public void run(){
-			
-			l.lock();
-			try{
-			while(true){
-				System.out.println("ayudante, esperando a liberar autos ");
-				esperarVerde.await();
-				while(estaEnVerde){
-					System.out.println("libero  ");
-					calle.puedenCruzar(); // este esta adefinido en calle, lo que hace es a su primer auto lo libera
-				}
-				
-				
-				
-			}
-			
-		}
-		
-		catch(Exception e){}
-	  finally{l.unlock();}
-		} 
-}
-*/
 }
