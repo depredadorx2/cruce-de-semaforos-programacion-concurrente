@@ -10,29 +10,19 @@ import java.util.concurrent.Semaphore;
 public class Cruce {
 	
 	
-	private Avenida calleOeste = new Avenida("oeste");
-	private Avenida calleSur = new Avenida("Sur");
-	private Avenida calleEste = new Avenida("Este");
-	private Semaphore semaforoVerde = new Semaphore(1, true);
-	private Semaphore semaforoRojo = new Semaphore(2, true);
+	public Semaphore semaforoVerde = new Semaphore(1, true);
+
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Inicializa todo el curce, creando los semaforos y los autos
+	 */
 	public void inicializarCruce(){
 		
-		Semaforo semaforoEste = new Semaforo(semaforoVerde, semaforoRojo, calleEste, "semaforo Este");
-		Semaforo semaforoOeste = new Semaforo(semaforoVerde, semaforoRojo, calleOeste, "semaforo Oeste");
-		Semaforo semaforoSur = new Semaforo(semaforoVerde, semaforoRojo, calleSur, "semaforo Sur");
+		Semaforo semaforoEste = new Semaforo(semaforoVerde, "semaforo Este");
+		Semaforo semaforoOeste = new Semaforo(semaforoVerde,   "semaforo Oeste");
+		Semaforo semaforoSur = new Semaforo(semaforoVerde,"semaforo Sur");
 		
 		AutoFactory factory= new AutoFactory();
-		List<Avenida> calles = new ArrayList<Avenida>();
-		calles.add(calleEste);
-		calles.add(calleOeste);
-		calles.add(calleSur);
 		
 		List<String> modelos = new ArrayList<String>();
 		String modelo1= "Kia Sorento";
@@ -56,12 +46,12 @@ public class Cruce {
 		
 		
 		List<Auto> autos = new ArrayList<Auto>();
-		autos.add(factory.makeAutoEO(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)), ((int) Math.floor(Math.random()*(9234-1000+1)+1000)), calleEste, semaforoEste));
-		autos.add(factory.makeAutoEOHaciaSur(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)), ((int) Math.floor(Math.random()*(9234-1000+1)+1000)), calleEste, semaforoEste));
-		autos.add(factory.makeAutoOE(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)), ((int) Math.floor(Math.random()*(9234-1000+1)+1000)), calleOeste, semaforoOeste));
-		autos.add(factory.makeAutoSurHaciaIzquierda(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)), ((int) Math.floor(Math.random()*(9234-1000+1)+1000)), calleSur, semaforoSur));
-		autos.add(factory.makeAutoOEHaciaSur(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)), ((int) Math.floor(Math.random()*(9234-1000+1)+1000)), calleOeste, semaforoOeste));
-		autos.add(factory.makeAutoSurHaciaDerecha(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)), ((int) Math.floor(Math.random()*(9234-1000+1)+1000)), calleSur, semaforoSur));
+		autos.add(factory.makeAutoEO(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)),  semaforoEste));
+		autos.add(factory.makeAutoEOHaciaSur(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)),  semaforoEste));
+		autos.add(factory.makeAutoOE(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)),  semaforoOeste));
+		autos.add(factory.makeAutoSurHaciaIzquierda(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)), semaforoSur));
+		autos.add(factory.makeAutoOEHaciaSur(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)),  semaforoOeste));
+		autos.add(factory.makeAutoSurHaciaDerecha(((int) Math.floor(Math.random()*(50-10+1)+10)), modelos.get(new Random().nextInt(7)),  semaforoSur));
 		
 		semaforoEste.start();
 		semaforoOeste.start();
@@ -71,7 +61,6 @@ public class Cruce {
 		for (int i = 0; i < 1000; i++) {
 			
 			Auto auto = autos.get(new Random().nextInt(5));
-			auto.setId(i);
 			auto.start();
 			
 			
@@ -79,6 +68,10 @@ public class Cruce {
 		
 	}
 	
+	/**
+	 * main
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Cruce cruce = new Cruce();
 		cruce.inicializarCruce();
