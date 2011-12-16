@@ -38,7 +38,7 @@ public class Semaforo extends Thread {
 	 * @param semaforoRojo
 	 * @param calle
 	 */
-	public Semaforo(Semaphore semaforoVerde, String identificacion) {
+	public Semaforo(Semaphore semaforoVerde,  String identificacion) {
 		
 		
 		this.semaforoVerde = semaforoVerde;
@@ -58,7 +58,7 @@ public class Semaforo extends Thread {
 		
 		try{
 			while (true){
-				this.semaforoVerde.acquireUninterruptibly();
+				this.semaforoVerde.acquireUninterruptibly(); 
 				System.out.println("espero a ser verde "+ this.indentificacion);
 		
 		System.out.println("soy verde "+ this.indentificacion);
@@ -67,28 +67,28 @@ public class Semaforo extends Thread {
 		estaEnVerde=true;
 		mutexBooleano.release(); 
 		
-		System.out.println(estaEnVerde +""+this.indentificacion);
+		System.out.println(estaEnVerde +" "+this.indentificacion);
 		
 		System.out.println("libero autos "+ this.indentificacion);
 		
 		getEsVerde().release();
 		
-	
+		
 		Thread.sleep(2000);
 		
 		this.color = "Amarillo";
 		System.out.println("ojo, cambio a  amarillo "+ this.indentificacion);
 		Thread.sleep(500);
 		
-		mutexBooleano.acquireUninterruptibly(); 
+		mutexBooleano.acquireUninterruptibly();
 		estaEnVerde=false;
 		mutexBooleano.release();
 		
-		System.out.println(estaEnVerde +""+this.indentificacion);
+		System.out.println(estaEnVerde +" "+this.indentificacion);
 
 		
+		System.out.println("soy rojo "+ this.indentificacion);
 		this.semaforoVerde.release(); 
-		System.out.println("soy rojo"+ this.indentificacion);
 		
 			}
 		}
@@ -97,5 +97,5 @@ public class Semaforo extends Thread {
 		
 	}
 	
-
+	
 }
