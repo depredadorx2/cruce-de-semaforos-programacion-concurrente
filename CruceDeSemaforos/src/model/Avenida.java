@@ -13,6 +13,23 @@ public class Avenida {
 	public Avenida(String nombre) {
 		this.nombre=nombre;
 	}
+	
+	
+	
+
+	public List<Auto> getCalle() {
+		return calle;
+	}
+
+
+
+
+	public void setCalle(List<Auto> calle) {
+		this.calle = calle;
+	}
+
+
+
 
 /**
  * Inicia los autos en el trancito
@@ -22,6 +39,8 @@ public class Avenida {
 	public void agregarAuto(Auto auto){
 		this.calle.add(auto);
 	}
+	
+	
 	
 	/**
 	 * Lo que hace es permitir que los autos curcen el semaforo
