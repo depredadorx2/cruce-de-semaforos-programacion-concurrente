@@ -33,7 +33,7 @@ public class AutoCruceSimple extends Auto {
 	/**
 	 * Se retira del cruce, libreando la ultima grilla.
 	 */
-	public void irse() {
+	public synchronized void irse() {
 		this.imprimirInformacion("  desocupe ");
 		this.semaforoPaso1.release();
 		System.out.println(this.id + " " + this.modeloAuto + " "

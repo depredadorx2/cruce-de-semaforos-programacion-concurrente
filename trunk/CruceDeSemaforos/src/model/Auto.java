@@ -57,7 +57,7 @@ public class Auto extends Thread {
 	 * metodo run del thread, esta plasmado todo el comportamiento de un auto,
 	 * desde que entra en circulacion hasta que sale de ella.
 	 */
-	public synchronized void run() {
+	public void run() {
 		try {
 			this.unirmeAlTransito();
 			this.esperarVerde();
@@ -71,7 +71,7 @@ public class Auto extends Thread {
 	/**
 	 * Hace que el auto se inicie en el transito, solamente con una impresion.
 	 */
-	public void unirmeAlTransito() {
+	public synchronized void unirmeAlTransito() {
 		this.imprimirInformacion("  estoy en transito ");
 
 	}
@@ -81,7 +81,7 @@ public class Auto extends Thread {
 	 * tiene que esperar su turno. Si pasa se fija si el semaforo esta en verde
 	 * y si es asi avanza.
 	 */
-	public void esperarVerde() {
+	public synchronized void esperarVerde() {
 		this.estoyPrimero.acquireUninterruptibly();
 
 		this.imprimirInformacion("  estoy en transito, espero semaforo verde ");
@@ -98,7 +98,7 @@ public class Auto extends Thread {
 	 * Entra en el cruce centrar, y consume la primera gruilla, simulada con un
 	 * semaforo.
 	 */
-	public void avanzar() {
+	public synchronized void avanzar() {
 		try {
 			this.semaforoPaso1.acquireUninterruptibly();
 			System.out.println(this.id + " " + this.modeloAuto + " "
@@ -114,7 +114,7 @@ public class Auto extends Thread {
 	/**
 	 * Lo redefinen las subclases
 	 */
-	private void irse() {
+	public synchronized void irse() {
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class Auto extends Thread {
 	 * 
 	 * @param info
 	 */
-	public void imprimirInformacion(String info) {
+	public synchronized void imprimirInformacion(String info) {
 		System.out.println(this.id + " " + this.modeloAuto + " " + info
 				+ " calle " + this.calle+ " " + this.direccion);
 	}
