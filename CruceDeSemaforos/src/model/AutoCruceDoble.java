@@ -47,7 +47,7 @@ public class AutoCruceDoble extends Auto {
 	 * Al irse, el auto libera las dos grillas que ocupo en su trayecto luego de
 	 * haber avanzado al estar verde el semaforo.
 	 */
-	public void irse() {
+	public synchronized void irse() {
 		try {
 			this.imprimirInformacion("  desocupe ");
 
