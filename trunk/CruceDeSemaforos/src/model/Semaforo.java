@@ -11,13 +11,29 @@ public class Semaforo extends Thread {
 	public String indentificacion;
 	private Semaphore semaforoVerde;
 	private Semaphore semaforoRojo;
-	public static  Avenida calle;
+	public   Avenida calle;
 	public Semaphore mutexBoleano = new Semaphore(1);
 	public static Lock l = new ReentrantLock();
 	public static Condition esperarVerde = l.newCondition();
-	public static Boolean estaEnVerde= false;
-	public SemaforoLiberadorDeAutos sema = new SemaforoLiberadorDeAutos();
+	public Boolean estaEnVerde= false;
+	public Semaphore esVerde = new Semaphore(0);
 	
+	
+	public Boolean getEstaEnVerde() {
+		return estaEnVerde;
+	}
+
+	
+	
+	
+	/**
+	 * Semaforo que deja pasar si es verde
+	 * @return
+	 */
+	public Semaphore getEsVerde() {
+		return esVerde;
+	}
+
 	/**
 	 * Constructor de un semafror de esquina.
 	 * @param semaforoVerde
@@ -29,7 +45,7 @@ public class Semaforo extends Thread {
 		
 		this.semaforoVerde = semaforoVerde;
 		this.semaforoRojo=semaforoRojo;
-		Semaforo.calle=calle;
+		this.calle=calle;
 		this.indentificacion = identificacion;
 		
 		
@@ -42,36 +58,47 @@ public class Semaforo extends Thread {
  */
 
 	public void run(){
-		sema.start();
+		//sema.start();
 		
 		try{
 			while (true){
+				this.semaforoVerde.acquireUninterruptibly(); //pido para ser verde
 				System.out.println("espero a ser verde "+ this.indentificacion);
-		this.semaforoVerde.acquireUninterruptibly(); //pido para ser verde
 		
 		System.out.println("soy verde "+ this.indentificacion);
 		mutexBoleano.acquireUninterruptibly(); //protejo el boleano
 		
 		estaEnVerde=true;
 		mutexBoleano.release(); 
+		
+		System.out.println(estaEnVerde +""+this.indentificacion);
+		
 		System.out.println("libero autos "+ this.indentificacion);
-		esperarVerde.signal(); //libero mi thread liberador de autos
-		System.out.println("libere "+ this.indentificacion); 
+		
+		getEsVerde().release();
+		
+		//esperarVerde.signal(); //libero mi thread liberador de autos
+		//this.calle.puedenCruzar();
+		
+		//System.out.println("libere "+ this.indentificacion); 
 		
 		
 		Thread.sleep(2000);
 		
 		this.color = "Amarillo";
 		System.out.println("ojo, cambio a  amarillo "+ this.indentificacion);
-		Thread.sleep(400);
+		Thread.sleep(500);
 		
 		mutexBoleano.acquireUninterruptibly(); //cambio el booleano para que dejen de pasar autos
 		estaEnVerde=false;
 		mutexBoleano.release();
 		
+		System.out.println(estaEnVerde +""+this.indentificacion);
+
+		
 		this.semaforoVerde.release(); //libero el semaforo verde
 		System.out.println("soy rojo"+ this.indentificacion);
-		this.semaforoRojo.acquireUninterruptibly(); //ahora soy rojo
+		//this.semaforoRojo.acquireUninterruptibly(); //ahora soy rojo
 			}
 		}
 		catch(Exception e){}
@@ -79,7 +106,9 @@ public class Semaforo extends Thread {
 		
 	}
 	
-	public static class SemaforoLiberadorDeAutos extends Thread{
+	
+	
+	/*public static class SemaforoLiberadorDeAutos extends Thread{
 		
 		public void run(){
 			
@@ -103,4 +132,5 @@ public class Semaforo extends Thread {
 	  finally{l.unlock();}
 		} 
 }
+*/
 }
