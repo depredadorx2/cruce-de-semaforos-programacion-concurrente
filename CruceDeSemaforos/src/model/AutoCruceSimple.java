@@ -24,20 +24,46 @@ public class AutoCruceSimple extends Auto {
 
 	}
 
-	public void run() {
-		super.run();
-		this.irse();
+	public void run(){
+		try{
+		this.unirmeAlTransito();
+		
+		this.estoyPrimero.acquireUninterruptibly();
 
+		this.imprimirInformacion("  estoy en transito, espero semaforo verde ");
+
+		if (!(this.semaforoDeMiCalle.getEstaEnVerde())) {
+			this.semaforoDeMiCalle.getEsVerde().acquireUninterruptibly();
+		}
+
+		this.imprimirInformacion("  cruce semaforo ");
+
+		
+		this.semaforoPaso1.acquireUninterruptibly();
+		System.out.println(this.id + " " + this.modeloAuto + " "
+				+ "  ocupe " + this.tipoDeCruce + " " + this.direccion);
+
+		Thread.sleep(this.velocidad);
+		this.estoyPrimero.release();
+		
+		
+		this.imprimirInformacion("  desocupe ");
+		this.semaforoPaso1.release();
+		System.out.println(this.id + " " + this.modeloAuto + " "
+				+ "  abandone el cruce ");
+		}
+		catch(Exception e){}
 	}
 
+	
 	/**
 	 * Se retira del cruce, libreando la ultima grilla.
 	 */
-	public synchronized void irse() {
+	/*public synchronized void irse() {
 		this.imprimirInformacion("  desocupe ");
 		this.semaforoPaso1.release();
 		System.out.println(this.id + " " + this.modeloAuto + " "
 				+ "  abandone el cruce ");
 	}
-
+*/
 }
