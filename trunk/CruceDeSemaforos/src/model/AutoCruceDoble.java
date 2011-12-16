@@ -32,22 +32,59 @@ public class AutoCruceDoble extends Auto {
 
 	}
 
-	@Override
-	public void run() {
+	public void run(){
 		try {
-			super.run();
-			this.irse();
+			this.unirmeAlTransito();
+			
+			this.estoyPrimero.acquireUninterruptibly();
+
+			this.imprimirInformacion("  estoy en transito, espero semaforo verde ");
+
+			if (!(this.semaforoDeMiCalle.getEstaEnVerde())) {
+				this.semaforoDeMiCalle.getEsVerde().acquireUninterruptibly();
+			}
+
+			this.imprimirInformacion("  cruce semaforo ");
+
+			
+			this.semaforoPaso1.acquireUninterruptibly();
+			System.out.println(this.id + " " + this.modeloAuto + " "
+					+ "  ocupe " + this.tipoDeCruce + " " + this.direccion);
+
+			Thread.sleep(this.velocidad);
+			this.estoyPrimero.release();
+			
+			
+			this.imprimirInformacion("  desocupe ");
+			this.semaforoPaso1.release();
+			System.out.println(this.id + " " + this.modeloAuto + " "
+					+ "  abandone el cruce ");
+			
+			this.imprimirInformacion("  desocupe ");
+
+			this.semaforoPaso2.acquireUninterruptibly();
+			this.semaforoPaso1.release();
+
+			this.imprimirInformacion("  ocupe ");
+
+			Thread.sleep(this.velocidad);
+			this.semaforoPaso2.release();
+
+			this.imprimirInformacion("  desocupe ");
+
+			System.out.println(this.id + " " + this.modeloAuto + " "
+					+ "  abandone el cruce ");
+			
 
 		} catch (Exception e) {
 		}
-
 	}
 
 	/**
 	 * Al irse, el auto libera las dos grillas que ocupo en su trayecto luego de
 	 * haber avanzado al estar verde el semaforo.
 	 */
-	public synchronized void irse() {
+	/*public synchronized void irse() {
 		try {
 			this.imprimirInformacion("  desocupe ");
 
@@ -66,5 +103,5 @@ public class AutoCruceDoble extends Auto {
 		} catch (Exception e) {
 		}
 	}
-
+*/
 }

@@ -42,31 +42,18 @@ public class Auto extends Thread {
 		this.id = id;
 	}
 
-	/**
-	 * Genera el id para cada auto.
-	 * 
-	 * @return
-	 */
-	public int generarId() {
-		int numero = Auto.fabricaId;
-		Auto.fabricaId++;
-		return numero;
-	}
 
 	/**
 	 * metodo run del thread, esta plasmado todo el comportamiento de un auto,
 	 * desde que entra en circulacion hasta que sale de ella.
 	 */
 	public void run() {
-		try {
-			this.unirmeAlTransito();
-			this.esperarVerde();
-			this.avanzar();
-			this.irse();
-
-		} catch (Exception e) {
-		}
+		
 	}
+
+	
+	
+	
 
 	/**
 	 * Hace que el auto se inicie en el transito, solamente con una impresion.
@@ -76,46 +63,7 @@ public class Auto extends Thread {
 
 	}
 
-	/**
-	 * Toma un recurso del semaforo que simula la cola de espera, como es fair
-	 * tiene que esperar su turno. Si pasa se fija si el semaforo esta en verde
-	 * y si es asi avanza.
-	 */
-	public synchronized void esperarVerde() {
-		this.estoyPrimero.acquireUninterruptibly();
-
-		this.imprimirInformacion("  estoy en transito, espero semaforo verde ");
-
-		if (!(this.semaforoDeMiCalle.getEstaEnVerde())) {
-			this.semaforoDeMiCalle.getEsVerde().acquireUninterruptibly();
-		}
-
-		this.imprimirInformacion("  cruce semaforo ");
-
-	}
-
-	/**
-	 * Entra en el cruce centrar, y consume la primera gruilla, simulada con un
-	 * semaforo.
-	 */
-	public synchronized void avanzar() {
-		try {
-			this.semaforoPaso1.acquireUninterruptibly();
-			System.out.println(this.id + " " + this.modeloAuto + " "
-					+ "  ocupe " + this.tipoDeCruce + " " + this.direccion);
-
-			Thread.sleep(this.velocidad);
-			this.estoyPrimero.release();
-		} catch (Exception e) {
-		}
-
-	}
-
-	/**
-	 * Lo redefinen las subclases
-	 */
-	public synchronized void irse() {
-	}
+	
 
 	/**
 	 * Este metodo permite imporimer la informacion del auto, con alguna
@@ -123,7 +71,7 @@ public class Auto extends Thread {
 	 * 
 	 * @param info
 	 */
-	public synchronized void imprimirInformacion(String info) {
+	public void imprimirInformacion(String info) {
 		System.out.println(this.id + " " + this.modeloAuto + " " + info
 				+ " calle " + this.calle+ " " + this.direccion);
 	}
