@@ -1,0 +1,1 @@
+Cruce de Semáforos es el trabajo final de la materia Programación Concurrente. Consiste en simular el comportamiento de autos y semáforos en el cruce de dos avenidas, aplicando las técnicas de sincronización de procesos vistas durante la cursada
